@@ -29,6 +29,27 @@ window.onload = function () {
     xhr.send(null);
   }
 
+  function readOld(cb) {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', './kitten.jpg', true);
+    xhr.overrideMimeType('text/plain; charset=x-user-defined');
+
+    xhr.onload = function(e) {
+      if(this.status == 200){
+        var data = xhr.responseText;
+        var bytes = '';
+        for(var i = 0; i < data.length; i++){
+          code = data.charCodeAt(i) & 0xff
+          bytes += String.fromCharCode(code)
+        }
+        cb(bytes);
+      }
+    }
+
+    xhr.send(null);
+  }
+
+  //readOld(function(data){
   read(function(data){
     console.log(data);
     f = zip.folder('inhere')
